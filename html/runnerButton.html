@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feliz Dia dos Namorados</title>
+
+    <style>
+        body {
+            padding-top: 8%;
+            background-color: red;
+        }
+
+        .painel {
+            margin: auto;
+            background-color: white;
+            width: 500px;
+            height: 500px;
+            border-radius: 20px;
+            text-align: center;
+            padding-top: 50px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+
+        #sim {
+            width: 60px;
+            height: 40px;
+            background-color: red;
+            border: 2px solid white;
+            border-radius: 10px;
+            color: white;
+            margin-left: -70px;
+            cursor: pointer;
+        }
+        
+        #nao {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            background-color: red;
+            border: 2px solid white;
+            border-radius: 10px;
+            color: white;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body> 
+    <div class="painel">
+        <h1>Feliz Dia dos Namorados</h1>
+        <img src="https://i.pinimg.com/originals/fa/49/4e/fa494e85b6099eda29f75fa0ae547e7a.gif" alt="">
+
+        <h2>Aceita namorar comigo?</h2>
+
+        <button onclick="parabens()" id="sim"> Sim! </button>
+        <button onmouseover="fuja()" id="nao"> Não! </button>
+
+    </div>
+
+    <script>
+        function fuja () {
+            var botaoNao = document.getElementById("nao")
+            var larguraJanela = window.innerWidth;
+            var alturaJanela = window.innerHeight;
+
+            var maxX = larguraJanela - botaoNao.offsetWidth;
+            var maxY = alturaJanela - botaoNao.offsetHeight;
+
+            var aleatorioX = Math.floor(Math.random() * maxX);
+            var aleatorioY = Math.floor(Math.random() * maxY);
+
+            botaoNao.style.left = aleatorioX + "px";
+            botaoNao.style.top = aleatorioY + "px";
+        }
+
+        function parabens () {
+           //alert("Parabéns! Você fez uma sabia escolha :)"
+            const mensagem = "Aceito <3"
+            const mensagemCodificada = encodeURIComponent(mensagem);
+            const numeroWhatsApp = '5554991413999';
+            const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
+
+            window.open(urlWhatsApp, '_blank');
+        }
+
+    </script>
+    
+</body>
+</html>
