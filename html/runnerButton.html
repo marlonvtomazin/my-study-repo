@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,53 +7,80 @@
 
     <style>
         body {
-            padding-top: 8%;
+            /* Usamos 'flex' para centralizar o painel, funciona melhor que 'margin: auto' */
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            min-height: 100vh; /* Garante que o body ocupe a altura total da tela */
+            margin: 0; /* Remove margens padrão */
             background-color: red;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            overflow: hidden; /* Remove barras de rolagem desnecessárias */
         }
 
         .painel {
-            margin: auto;
             background-color: white;
-            width: 500px;
-            height: 500px;
+            /* Largura máxima para desktop, mas flexível em celulares */
+            max-width: 500px; 
+            /* Largura usa 90% da tela, mas nunca passa de 500px */
+            width: 90%; 
+            height: auto; /* Altura se ajusta ao conteúdo */
+            min-height: 400px; /* Garante uma altura mínima */
             border-radius: 20px;
             text-align: center;
-            padding-top: 50px;
-            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            padding: 30px 20px; /* Reduz o padding para celular */
+            box-sizing: border-box; /* Garante que o padding não aumente a largura total */
         }
 
-        #sim {
-            width: 60px;
-            height: 40px;
+        h1, h2 {
+            margin-top: 5px;
+        }
+
+        img {
+            max-width: 90%; /* Garante que a imagem se ajuste à largura do painel */
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Estilo para os botões */
+        #sim, #nao {
+            width: 80px; /* Aumenta um pouco para ser fácil de tocar */
+            height: 50px;
             background-color: red;
             border: 2px solid white;
             border-radius: 10px;
             color: white;
-            margin-left: -70px;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
+            margin-top: 20px;
+            /* Transição suave para o botão 'Não!' se mover */
+            transition: all 0.2s; 
+        }
+
+        /* Reposiciona os botões no painel */
+        #sim {
+            position: relative;
+            margin-right: 100px;
+            left: -50px; 
         }
         
         #nao {
             position: absolute;
-            width: 60px;
-            height: 40px;
-            background-color: red;
-            border: 2px solid white;
-            border-radius: 10px;
-            color: white;
-            margin-left: 10px;
+            /* Posição inicial para o 'Não!' */
+            transform: translate(10px, 20px); 
         }
     </style>
 </head>
 <body> 
     <div class="painel">
-        <h1>Meu denguinho</h1>
-        <img src="https://i.pinimg.com/originals/fa/49/4e/fa494e85b6099eda29f75fa0ae547e7a.gif" alt="">
+        <h1>Meu denguinho ❤️</h1>
+        <img src="https://i.pinimg.com/originals/fa/49/4e/fa494e85b6099eda29f75fa0ae547e7a.gif" alt="Ursinho fofo acenando">
 
         <h2>Aceita namorar comigo?</h2>
 
         <button onclick="parabens()" id="sim"> Sim! </button>
-        <button onmouseover="fuja()" id="nao"> Não! </button>
+        <button onmouseover="fuja()" ontouchstart="fuja()" id="nao"> Não! </button> 
 
     </div>
 
@@ -66,18 +93,21 @@
             var maxX = larguraJanela - botaoNao.offsetWidth;
             var maxY = alturaJanela - botaoNao.offsetHeight;
 
+            // Gera uma posição aleatória dentro das dimensões da janela
             var aleatorioX = Math.floor(Math.random() * maxX);
             var aleatorioY = Math.floor(Math.random() * maxY);
 
+            // Aplica a nova posição.
             botaoNao.style.left = aleatorioX + "px";
             botaoNao.style.top = aleatorioY + "px";
         }
 
         function parabens () {
-           //alert("Parabéns! Você fez uma sabia escolha :)"
-            const mensagem = "Aceito <3"
+            const mensagem = "Aceito ❤️"
             const mensagemCodificada = encodeURIComponent(mensagem);
+            
             const numeroWhatsApp = '5554991413999';
+            
             const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
 
             window.open(urlWhatsApp, '_blank');
