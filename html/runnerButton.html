@@ -7,29 +7,31 @@
 
     <style>
         body {
-            /* Usamos 'flex' para centralizar o painel, funciona melhor que 'margin: auto' */
+            /* Flexbox para centralizar o painel na tela */
             display: flex;
-            justify-content: center; /* Centraliza horizontalmente */
-            align-items: center; /* Centraliza verticalmente */
-            min-height: 100vh; /* Garante que o body ocupe a altura total da tela */
-            margin: 0; /* Remove margens padrão */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
             background-color: red;
             font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-            overflow: hidden; /* Remove barras de rolagem desnecessárias */
+            overflow: hidden; 
         }
 
         .painel {
             background-color: white;
-            /* Largura máxima para desktop, mas flexível em celulares */
             max-width: 500px; 
-            /* Largura usa 90% da tela, mas nunca passa de 500px */
             width: 90%; 
-            height: auto; /* Altura se ajusta ao conteúdo */
-            min-height: 400px; /* Garante uma altura mínima */
+            height: auto;
+            min-height: 400px;
             border-radius: 20px;
             text-align: center;
-            padding: 30px 20px; /* Reduz o padding para celular */
-            box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+            padding: 30px 20px;
+            box-sizing: border-box;
+            /* CORREÇÃO CHAVE 1: Define o painel como referência para posicionamento inicial */
+            position: relative; 
+            overflow: visible; 
+            padding-bottom: 70px; /* Adiciona espaço para os botões */
         }
 
         h1, h2 {
@@ -37,14 +39,15 @@
         }
 
         img {
-            max-width: 90%; /* Garante que a imagem se ajuste à largura do painel */
+            max-width: 90%;
             height: auto;
             border-radius: 10px;
+            margin-bottom: 20px;
         }
 
-        /* Estilo para os botões */
+        /* Estilo base para os botões */
         #sim, #nao {
-            width: 80px; /* Aumenta um pouco para ser fácil de tocar */
+            width: 80px; 
             height: 50px;
             background-color: red;
             border: 2px solid white;
@@ -53,22 +56,23 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 20px;
-            /* Transição suave para o botão 'Não!' se mover */
-            transition: all 0.2s; 
+            transition: all 0.2s;
+            flex-shrink: 0;
+            /* Posicionamento em relação ao .painel */
+            position: absolute;
+            top: auto; 
+            bottom: 20px; /* Alinha os botões na parte inferior do painel */
         }
 
-        /* Reposiciona os botões no painel */
+        /* CORREÇÃO CHAVE 2: Posicionamento inicial alinhado */
         #sim {
-            position: relative;
-            margin-right: 100px;
-            left: -50px; 
+            left: 50%;
+            transform: translateX(-100px); /* Move para a esquerda do centro */
         }
         
         #nao {
-            position: absolute;
-            /* Posição inicial para o 'Não!' */
-            transform: translate(10px, 20px); 
+            left: 50%;
+            transform: translateX(20px); /* Move para a direita do centro */
         }
     </style>
 </head>
@@ -78,7 +82,7 @@
         <img src="https://i.pinimg.com/originals/fa/49/4e/fa494e85b6099eda29f75fa0ae547e7a.gif" alt="Ursinho fofo acenando">
 
         <h2>Aceita namorar comigo?</h2>
-
+        
         <button onclick="parabens()" id="sim"> Sim! </button>
         <button onmouseover="fuja()" ontouchstart="fuja()" id="nao"> Não! </button> 
 
@@ -87,17 +91,20 @@
     <script>
         function fuja () {
             var botaoNao = document.getElementById("nao")
+            
+            if (botaoNao.style.position !== 'fixed') {
+                botaoNao.style.position = 'fixed'; 
+            }
+            
             var larguraJanela = window.innerWidth;
             var alturaJanela = window.innerHeight;
 
             var maxX = larguraJanela - botaoNao.offsetWidth;
             var maxY = alturaJanela - botaoNao.offsetHeight;
 
-            // Gera uma posição aleatória dentro das dimensões da janela
             var aleatorioX = Math.floor(Math.random() * maxX);
             var aleatorioY = Math.floor(Math.random() * maxY);
 
-            // Aplica a nova posição.
             botaoNao.style.left = aleatorioX + "px";
             botaoNao.style.top = aleatorioY + "px";
         }
@@ -106,7 +113,7 @@
             const mensagem = "Aceito ❤️"
             const mensagemCodificada = encodeURIComponent(mensagem);
             
-            const numeroWhatsApp = '5554991413999';
+            const numeroWhatsApp = '5554991413999'; 
             
             const urlWhatsApp = `https://wa.me/${numeroWhatsApp}?text=${mensagemCodificada}`;
 
