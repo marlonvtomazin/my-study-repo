@@ -1,0 +1,1 @@
+curso_01 = course/react-fundamental-crie-o-seu-primeiro-projeto/

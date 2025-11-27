@@ -1,11 +1,27 @@
 import './App.css';
 import FirstComponent from './components/FirstComponent';
+import AnotherComponent from './components/AnotherComponent';
+import Images from './components/Images';
+import Hooks from './components/Hooks';
+import List from './components/List';
+import RenderCond from './components/RenderCond';
+import Fragment from './components/Fragment';
+import Container from './components/Container';
 
 function App() {
   return (
     <div className="App">
       <h2>Hello React!</h2>
       <FirstComponent />
+      <AnotherComponent />
+      <Images />
+      <Hooks />
+      <List />
+      <RenderCond x={10} y={10}/> 
+      <Fragment />
+      <Container>
+        <p>Esse é filho do container</p>
+      </Container>
     </div>
   );
 }
@@ -13,4 +29,4 @@ function App() {
 export default App;
 
 
-//PAREM em 20:48 da aula https://compassuol.udemy.com/course/react-fundamental-crie-o-seu-primeiro-projeto/learn/lecture/31781644#notes
+//PAREM em 20:48 da aula

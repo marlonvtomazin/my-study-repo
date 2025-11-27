@@ -1,7 +1,10 @@
+import AnotherComponent from './AnotherComponent';
+
 function FirstComponent() {
     return (
-        <div>
+        <div className="firstcomponent">
             <p>Primeiro component</p>
+            <AnotherComponent />
         </div>
     )
 }
