@@ -2,7 +2,9 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import { BsTrash, BsBookmarkCheck, BsBookmarkCheckFill } from 'react-icons/bs';
 
-const API = "http://localhost:5000/";
+//Funcao por exemplo onClick com arrow function só vai ser executada ao clicar. Se fosse sem arrow function seria quando o documento carrega
+
+const API = "http://localhost:5000";
 
 function App() {
   const [title, setTitle] = useState("");
@@ -11,19 +13,73 @@ function App() {
   // Para loading da aplicação
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  //Load todos before page load
+  useEffect(() => {
+    const loadData = async () => {
+      setLoading(true)
+
+      const res = await fetch(API + "/todos")
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch((err) => console.log(err))
+
+      setLoading(false)
+
+      setTodos(res)
+
+    }
+
+    loadData()
+  }, [])
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const todo = {
-      id: Math.random(),
+      id: Math.random().toString(),
       title,
       time,
       done: false
     }
+
     //Envio para a api
-    console.log(todo);
+    await fetch(API + "/todos", {
+      method: "POST",
+      body: JSON.stringify(todo),
+      headers: {
+        "Content-type": "application/json"
+      },
+    });
+
+    setTodos((prevState) => [...prevState, todo])
 
     setTitle("");
     setTime("");
+  }
+
+  const handleDelete = async (id) => {
+    await fetch(API + "/todos/" + id, {
+      method: "DELETE"
+    });
+
+    setTodos((prevState) => prevState.filter((todo) => todo.id !== id));
+  }
+
+  const handleEdit = async (todo) => {
+    todo.done = !todo.done
+
+    const data = await fetch(API + "/todos/" + todo.id, {
+      method: "PUT",
+      body: JSON.stringify(todo),
+      headers: {
+        "Content-type": "application/json"
+      }
+    });
+
+    setTodos((prevState) => prevState.map((t) => (t.id === data.id ? (t=data) : t)));
+  }
+
+  if (loading) {
+    return <p>Carregando...</p>
   }
 
   return (
@@ -60,6 +116,18 @@ function App() {
       <div className="list-todo">
         <h2>Lista de tarefas:</h2>
         {todos.length === 0 && <p>Não há tarefas!</p>}
+        {todos.map((todo) => ( // <-- Mude para parênteses
+          <div className="todo" key={todo.id}>
+            <h3 className={todo.done ? "todo-done" : ""}>{todo.title}</h3>
+            <p>Duração: {todo.time}</p>
+            <div className="actions">
+              <span onClick={() => handleEdit(todo)}>
+                {!todo.done ? <BsBookmarkCheck /> : <BsBookmarkCheckFill />}
+              </span>
+              <BsTrash onClick={() => handleDelete(todo.id)} />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
